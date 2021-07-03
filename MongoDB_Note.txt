@@ -1,0 +1,139 @@
+
+mongodump --db ContentDB --out G:\BACKUPDB
+mongorestore --db ContentDB G:\BACKUPDB\ContentDB
+
+## Add new field with value ##
+db.Profiles.update({}, {$set: {"ContentBaseUrl": "http://d1lqqmha36tgjj.cloudfront.net/"}}, false, true)
+db.Categories.update({}, {$set: {"ContentBaseUrl": "http://d1lqqmha36tgjj.cloudfront.net/"}}, false, true)
+db.Books.update({}, {$set: {"ContentBaseUrl": "http://d1lqqmha36tgjj.cloudfront.net/"}}, false, true)
+db.Channels.update({}, {$set: {"ContentBaseUrl": "http://d1lqqmha36tgjj.cloudfront.net/"}}, false, true)
+db.Shows.update({}, {$set: {"ContentBaseUrl": "http://d1lqqmha36tgjj.cloudfront.net/"}}, false, true)
+db.Tracks.update({}, {$set: {"ContentBaseUrl": "http://d1lqqmha36tgjj.cloudfront.net/"}}, false, true)
+db.Wisdoms.update({}, {$set: {"ContentBaseUrl": "http://d1lqqmha36tgjj.cloudfront.net/"}}, false, true)
+db.Playlists.update({}, {$set: {"ContentBaseUrl": "http://d1lqqmha36tgjj.cloudfront.net/"}}, false, true)
+db.Podcasts.update({}, {$set: {"ContentBaseUrl": "http://d1lqqmha36tgjj.cloudfront.net/"}}, false, true)
+
+## Update field by new value ##
+db.Profiles.updateMany({ImageUrl: /^[/]/},[{$set: {ImageUrl: {$substr: ["$ImageUrl", 1, -1]}}}]);
+db.Categories.updateMany({ImageUrl: /^[/]/},[{$set: {ImageUrl: {$substr: ["$ImageUrl", 1, -1]}}}]);
+db.Books.updateMany({ImageUrl: /^[/]/},[{$set: {ImageUrl: {$substr: ["$ImageUrl", 1, -1]}}}]);
+db.Channels.updateMany({ImageUrl: /^[/]/},[{$set: {ImageUrl: {$substr: ["$ImageUrl", 1, -1]}}}]);
+db.Shows.updateMany({ImageUrl: /^[/]/},[{$set: {ImageUrl: {$substr: ["$ImageUrl", 1, -1]}}}]);
+db.Tracks.updateMany({ImageUrl: /^[/]/},[{$set: {ImageUrl: {$substr: ["$ImageUrl", 1, -1]}}}]);
+db.Wisdoms.updateMany({ImageUrl: /^[/]/},[{$set: {ImageUrl: {$substr: ["$ImageUrl", 1, -1]}}}]);
+db.Playlists.updateMany({ImageUrl: /^[/]/},[{$set: {ImageUrl: {$substr: ["$ImageUrl", 1, -1]}}}]);
+db.Podcasts.updateMany({ImageUrl: /^[/]/},[{$set: {ImageUrl: {$substr: ["$ImageUrl", 1, -1]}}}]);
+
+## Remove an existing field ##
+db.Profiles.update({}, {$unset: {ContentBaseUrl:1}}, false, true);
+db.Categories.update({}, {$unset: {ContentBaseUrl:1}}, false, true);
+db.Books.update({}, {$unset: {ContentBaseUrl:1}}, false, true);
+db.Channels.update({}, {$unset: {ContentBaseUrl:1}}, false, true);
+db.Shows.update({}, {$unset: {ContentBaseUrl:1}}, false, true);
+db.Tracks.update({}, {$unset: {ContentBaseUrl:1}}, false, true);
+db.Wisdoms.update({}, {$unset: {ContentBaseUrl:1}}, false, true);
+db.Podcasts.update({}, {$unset: {ContentBaseUrl:1}}, false, true);
+db.Playlists.update({}, {$unset: {ContentBaseUrl:1}}, false, true);
+
+
+
+db.Books.update({}, {$unset: {Downloaders:1}}, false, true);
+db.Books.update({}, {$unset: {Downloaded:1}}, false, true);
+db.Tracks.update({}, {$unset: {Downloaders:1}}, false, true);
+db.Tracks.update({}, {$unset: {Downloaded:1}}, false, true);
+
+db.Books.update({}, {$set: {"Downloaders": []}, false, true)
+db.Books.update({}, {$set: {"Downloaded": 0}, false, true)
+
+db.Tracks.update({}, {$set: {"Downloaders": []}}, false, true)
+db.Tracks.update({}, {$set: {"Downloaded": 0}}, false, true)
+
+## Add new arrary field ##
+db.Categories.update({}, {$set: {"Follows": []}}, false, true)
+db.Categories.update({}, {$set: {NotifySubscribers:[]}}, false, true);
+db.Books.update({}, {$set: {NotifySubscribers:[]}}, false, true);
+db.Channels.update({}, {$set: {NotifySubscribers:[]}}, false, true);
+db.Shows.update({}, {$set: {NotifySubscribers:[]}}, false, true);
+db.Tracks.update({}, {$set: {NotifySubscribers:[]}}, false, true);
+db.Wisdoms.update({}, {$set: {NotifySubscribers:[]}}, false, true);
+db.Podcasts.update({}, {$set: {NotifySubscribers:[]}}, false, true);
+db.Playlists.update({}, {$set: {NotifySubscribers:[]}}, false, true);
+
+-- Update field with another field
+db.Shows.update({}, [{$set: {'NotifySubscribers': '$Subscribes'}}], {"multi": true})
+
+---
+db.Categories.update({}, {$unset: {NotifySubscribes:[]}}, false, true);
+db.Books.update({}, {$unset: {NotifySubscribes:[]}}, false, true);
+db.Channels.update({}, {$unset: {NotifySubscribes:[]}}, false, true);
+db.Shows.update({}, {$unset: {NotifySubscribes:[]}}, false, true);
+db.Tracks.update({}, {$unset: {NotifySubscribes:[]}}, false, true);
+db.Wisdoms.update({}, {$unset: {NotifySubscribes:[]}}, false, true);
+db.Podcasts.update({}, {$unset: {NotifySubscribes:[]}}, false, true);
+db.Playlists.update({}, {$unset: {NotifySubscribes:[]}}, false, true);
+db.Profiles.update({Subscribes: null}, {$set: {Subscribes: []}}, {multi: true})
+db.Books.update({}, {$set: {"Buyers": []}}, false, true)
+
+--- Update with where condition
+db.Channels.update({"About": "undefined"}, {"$set": {"About": ""}},{ multi: true })
+db.Shows.update({"About": "undefined"}, {"$set": {"About": ""}},{ multi: true })
+db.Tracks.update({"About": "undefined"}, {"$set": {"About": ""}},{ multi: true })
+db.Wisdoms.update({"About": "undefined"}, {"$set": {"About": ""}},{ multi: true })
+db.Podcasts.update({"About": "undefined"}, {"$set": {"About": ""}},{ multi: true })
+db.Playlists.update({"About": "undefined"}, {"$set": {"About": ""}},{ multi: true })
+db.Profiles.update({"About": "undefined"}, {"$set": {"About": ""}},{ multi: true })
+db.Books.update({"About": "undefined"}, {"$set": {"About": ""}},{ multi: true })
+
+
+## Add index ##
+db.Categories.createIndex(
+{ Name: 'text', About: 'text' }
+)
+db.Profiles.createIndex(
+{ FirstName: 'text', LastName: 'text' }
+)
+db.Tracks.createIndex(
+{ Name: 'text', About: 'text' }
+)
+db.Shows.createIndex(
+{ Name: 'text', About: 'text' }
+)
+db.Channels.createIndex(
+{ Name: 'text', About: 'text' }
+)
+db.Playlists.createIndex(
+{ Name: 'text', About: 'text' }
+)
+db.Books.createIndex(
+{ Name: 'text', About: 'text' }
+)
+db.Podcasts.createIndex(
+{ Name: 'text', About: 'text' }
+)
+
+## Drop index ##
+db.Tracks.dropIndexes()
+db.Podcasts.dropIndexes()
+
+
+db.Tracks.ensureIndex({ 
+  "Name": "text", 
+  "About": "text"
+}, { 
+  "name": "tracks_full_text", 
+  "default_language": "en",
+  "language_override": "en" 
+}); 
+
+{
+        "ok" : 0,
+        "errmsg" : "default_language is not valid",
+        "code" : 67,
+        "codeName" : "CannotCreateIndex"
+}
+## Where Condition
+db.Shows.find({ Subscribes: { $exists: true, $ne: [] } })
+db.Shows.find({ Subscribes: { $exists: true, $not: {$size: 0} } }).count()
+db.Shows.find({ Subscribes: { $exists: true, $eq: {$size: 0} } }).count()
+db.Shows.find( { Subscribes: { $size: 0 } } ).count();
+db.Shows.find( { Subscribes: { $not: $size: 0 } } ).count()
