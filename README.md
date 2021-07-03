@@ -1,2 +1,2 @@
-# NoSQL
+# NoSQL Reference
 NoSQL Reference 
